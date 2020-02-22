@@ -10,5 +10,7 @@ public:
 
 public:
 	Leaf(Leaf* parent, int key, int data);
+	Leaf(int key, int data);
+	Leaf();
 };
 
