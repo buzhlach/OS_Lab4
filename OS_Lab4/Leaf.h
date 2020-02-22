@@ -1,3 +1,5 @@
+//хоть что-то русское?
+
 #pragma once
 class Leaf
 {
