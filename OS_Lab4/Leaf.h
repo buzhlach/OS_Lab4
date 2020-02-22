@@ -1,5 +1,3 @@
-//хоть что-то русское?
-
 #pragma once
 class Leaf
 {
@@ -11,6 +9,6 @@ public:
 	int data;//данные
 
 public:
-	Leaf(Leaf* parent,int key,int data) 
+	Leaf(Leaf* parent, int key, int data);
 };
 
