@@ -26,10 +26,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Leaf.h">
+    <ClInclude Include="BinaryTree.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="BinaryTree.h">
+    <ClInclude Include="Leaf.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
