@@ -2,11 +2,11 @@
 class Leaf
 {
 public:
-	Leaf* parent;//родитель
-	Leaf* left;//левый ребёнок
-	Leaf* right;//правый ребёнок
-	int key;//ключ поиска
-	int data;//данные
+	Leaf* parent;//СЂРѕРґРёС‚РµР»СЊ
+	Leaf* left;//Р»РµРІС‹Р№ СЂРµР±С‘РЅРѕРє
+	Leaf* right;//РїСЂР°РІС‹Р№ СЂРµР±С‘РЅРѕРє
+	int key;//РєР»СЋС‡ РїРѕРёСЃРєР°
+	int data;//РґР°РЅРЅС‹Рµ
 
 public:
 	Leaf(Leaf* parent, int key, int data);

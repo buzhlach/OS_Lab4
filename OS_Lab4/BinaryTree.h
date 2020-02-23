@@ -12,8 +12,8 @@ public:
 	BinaryTree(Leaf* root);
 	BinaryTree();
 	~BinaryTree();
-	void AddLeaf(int key, int data);//добавить лист
-	int FindLeafDataByKey(int key);//найти значение листа по ключу
-	void DeleteLeafByKey(int key);//удалить лист по ключу
+	void AddLeaf(int key, int data);//РґРѕР±Р°РІРёС‚СЊ Р»РёСЃС‚
+	int FindLeafDataByKey(int key);//РЅР°Р№С‚Рё Р·РЅР°С‡РµРЅРёРµ Р»РёСЃС‚Р° РїРѕ РєР»СЋС‡Сѓ
+	void DeleteLeafByKey(int key);//СѓРґР°Р»РёС‚СЊ Р»РёСЃС‚ РїРѕ РєР»СЋС‡Сѓ
 };
 

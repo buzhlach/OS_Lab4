@@ -1,4 +1,4 @@
-#include "BinaryTree.h"
+ï»¿#include "BinaryTree.h"
 #include "Leaf.h"
 #include <iostream>
 
@@ -31,7 +31,7 @@ void BinaryTree::AddLeaf(int key, int data) {
 		currLeaf = addLeaf;
 	}
 	else {
-		cout << "Êëþ÷ \'"<<key<<"\' ñîâïàë ñ ñóùåñòâóþùèì. Çíà÷åíèå ïî äàííîìó êëþ÷ó èçìåíåíî"<<endl;
+		cout << "ÐšÐ»ÑŽÑ‡ \'"<<key<<"\' ÑÐ¾Ð²Ð¿Ð°Ð» Ñ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ð¼. Ð—Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¾ Ð´Ð°Ð½Ð½Ð¾Ð¼Ñƒ ÐºÐ»ÑŽÑ‡Ñƒ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¾"<<endl;
 		currLeaf->data = data;
 	}
 }
@@ -50,10 +50,10 @@ int BinaryTree::FindLeafDataByKey(int key) {
 	}
 
 	if (currLeaf == nullptr) {
-		cout << "Ëèñòà ñ êëþ÷îì \'" << key << "\' íå íàéäåíî."<<endl;
+		cout << "Ð›Ð¸ÑÑ‚Ð° Ñ ÐºÐ»ÑŽÑ‡Ð¾Ð¼ \'" << key << "\' Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾."<<endl;
 	}
 	else {
-		cout << "Çíà÷åíèå ïî êëþ÷ó \'" << key << "\' = " << currLeaf->data<<endl;
+		cout << "Ð—Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¾ ÐºÐ»ÑŽÑ‡Ñƒ \'" << key << "\' = " << currLeaf->data<<endl;
 	}
 }
 
@@ -83,22 +83,22 @@ void BinaryTree::DeleteLeafByKey(int key) {
 	}
 
 	if (currLeaf == nullptr) {
-		cout << "Ëèñòà ñ êëþ÷îì \'" << key << "\' íå íàéäåíî." << endl;
+		cout << "Ð›Ð¸ÑÑ‚Ð° Ñ ÐºÐ»ÑŽÑ‡Ð¾Ð¼ \'" << key << "\' Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾." << endl;
 	}
 	else {
 		if (currLeaf->left == nullptr) {
-			if (currLeaf->right == nullptr) {//íåò ïîòîìêîâ
+			if (currLeaf->right == nullptr) {//Ð½ÐµÑ‚ Ð¿Ð¾Ñ‚Ð¾Ð¼ÐºÐ¾Ð²
 				free(currLeaf);
 			}
 
-			else {//åñòü ïðàâûé ïîòîìîê
+			else {//ÐµÑÑ‚ÑŒ Ð¿Ñ€Ð°Ð²Ñ‹Ð¹ Ð¿Ð¾Ñ‚Ð¾Ð¼Ð¾Ðº
 				if (currLeaf != this->root) {
-					if (currLeaf->key > currLeaf->parent->key) {//curr â ïðàâîé âåòêå
+					if (currLeaf->key > currLeaf->parent->key) {//curr Ð² Ð¿Ñ€Ð°Ð²Ð¾Ð¹ Ð²ÐµÑ‚ÐºÐµ
 						currLeaf->parent->right = currLeaf->right;
 						free(currLeaf);
 					}
 
-					else {//curr â ëåâîé âåòêå
+					else {//curr Ð² Ð»ÐµÐ²Ð¾Ð¹ Ð²ÐµÑ‚ÐºÐµ
 						currLeaf->parent->left = currLeaf->right;
 						free(currLeaf);
 					}
@@ -113,14 +113,14 @@ void BinaryTree::DeleteLeafByKey(int key) {
 
 		else {
 			
-			if (currLeaf->right == nullptr) {//åñòü ëåâûé ïîòîìê
+			if (currLeaf->right == nullptr) {//ÐµÑÑ‚ÑŒ Ð»ÐµÐ²Ñ‹Ð¹ Ð¿Ð¾Ñ‚Ð¾Ð¼Ðº
 				if (currLeaf != this->root) {
-					if (currLeaf->key > currLeaf->parent->key) {//curr â ïðàâîé âåòêå
+					if (currLeaf->key > currLeaf->parent->key) {//curr Ð² Ð¿Ñ€Ð°Ð²Ð¾Ð¹ Ð²ÐµÑ‚ÐºÐµ
 						currLeaf->parent->right = currLeaf->left;
 						free(currLeaf);
 					}
 
-					else {//curr â ëåâîé âåòêå
+					else {//curr Ð² Ð»ÐµÐ²Ð¾Ð¹ Ð²ÐµÑ‚ÐºÐµ
 						currLeaf->parent->left = currLeaf->left;
 						free(currLeaf);
 					}
@@ -132,21 +132,21 @@ void BinaryTree::DeleteLeafByKey(int key) {
 				}
 			}
 
-			else {//åñòü îáà ïîòîìêà
+			else {//ÐµÑÑ‚ÑŒ Ð¾Ð±Ð° Ð¿Ð¾Ñ‚Ð¾Ð¼ÐºÐ°
 				Leaf* parentToLeftBranch = currLeaf->right;
-				while (parentToLeftBranch!=nullptr)//âûáîð ìåñòà, îòêóäà âñòàâèòü ëåâóþ ïîäâåòâü
+				while (parentToLeftBranch!=nullptr)//Ð²Ñ‹Ð±Ð¾Ñ€ Ð¼ÐµÑÑ‚Ð°, Ð¾Ñ‚ÐºÑƒÐ´Ð° Ð²ÑÑ‚Ð°Ð²Ð¸Ñ‚ÑŒ Ð»ÐµÐ²ÑƒÑŽ Ð¿Ð¾Ð´Ð²ÐµÑ‚Ð²ÑŒ
 				{
 					parentToLeftBranch = parentToLeftBranch->left;
 				}
 				parentToLeftBranch = parentToLeftBranch->parent;
 				if (currLeaf != this->root) {
-					if (currLeaf->key > currLeaf->parent->key) {//curr â ïðàâîé âåòêå
+					if (currLeaf->key > currLeaf->parent->key) {//curr Ð² Ð¿Ñ€Ð°Ð²Ð¾Ð¹ Ð²ÐµÑ‚ÐºÐµ
 						currLeaf->parent->right = currLeaf->right;
 						parentToLeftBranch->left = currLeaf->left;
 						free(currLeaf);
 					}
 
-					else {//curr â ëåâîé âåòêå
+					else {//curr Ð² Ð»ÐµÐ²Ð¾Ð¹ Ð²ÐµÑ‚ÐºÐµ
 						currLeaf->parent->left = currLeaf->right;
 						parentToLeftBranch->left = currLeaf->left;
 						free(currLeaf);
