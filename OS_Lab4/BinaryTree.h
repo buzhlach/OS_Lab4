@@ -13,7 +13,12 @@ public:
 	BinaryTree();
 	~BinaryTree();
 	void AddLeaf(int key, int data);//добавить лист
-	int FindLeafDataByKey(int key);//найти значение листа по ключу
+	void FindLeafDataByKey(int key);//найти значение листа по ключу
 	void DeleteLeafByKey(int key);//удалить лист по ключу
+	void PrintBinaryTree();//вывести дерево
+	void AddRandomLeafs(int n);//случайное дерево длины n с ключами от 0 до 100
+private:
+	void PrintLeaf(Leaf *leaf);
+	void PrintBranch(Leaf *leaf);
 };
 
