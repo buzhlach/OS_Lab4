@@ -7,23 +7,49 @@
 
 using namespace std;
 
+
 int main()
 {
+    //буферы для Сonsole
+    DWORD bufferDWORD;
+    COORD point;
+    point.X = 0; point.Y = 0;
+    LPCWSTR bufferLPCWSTR;
+    const char* bufferConstChar;
+    
+
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
+
     setlocale(LC_ALL, "");
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
-    system("chcp 1251");
     BinaryTree tree;
     int m1 = 1;
     while (m1 != 0) {
-        system("cls");
-        cout << "Press 1, to add leaf." << endl;
-        cout << "Press 2, to add n random leafs." << endl;
-        cout << "Press 3, to find leaf by key." << endl;
-        cout << "Press 4, to delete leaf." << endl;
-        cout << "Press 5, to print tree" << endl;
-        cout << "Press 6, to clear tree" << endl;
-        cout << "Press 0, to exit." << endl;
+        LPCWSTR bufferLPCWSTR = L"MENU";
+        SetConsoleTitle(bufferLPCWSTR);
+        system("cls"); // очистка экрана
+        bufferConstChar ="Press 1, to add leaf.\n";
+        WriteFile(hOut, bufferConstChar,strlen(bufferConstChar),&bufferDWORD, NULL);
+
+        bufferConstChar = "Press 2, to add n random leafs.\n";
+        WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+        bufferConstChar = "Press 3, to find leaf by key.\n";
+        WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+        bufferConstChar = "Press 4, to delete leaf.\n";
+        WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+        bufferConstChar = "Press 5, to print tree.\n";
+        WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+        bufferConstChar = "Press 6, to clear tree.\n";
+        WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+        bufferConstChar = "Press 0, to exit.\n";
+        WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
         cin >> m1;
         switch (m1) {
         case 1:
