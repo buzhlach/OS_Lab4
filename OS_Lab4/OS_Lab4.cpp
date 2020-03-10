@@ -16,6 +16,7 @@ int main()
     point.X = 0; point.Y = 0;
     LPCWSTR bufferLPCWSTR;
     const char* bufferConstChar;
+    char bufferCharArr[4];
     
 
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -27,7 +28,7 @@ int main()
     BinaryTree tree;
     int m1 = 1;
     while (m1 != 0) {
-        LPCWSTR bufferLPCWSTR = L"MENU";
+        bufferLPCWSTR = L"MENU";
         SetConsoleTitle(bufferLPCWSTR);
         system("cls"); // очистка экрана
         bufferConstChar ="Press 1, to add leaf.\n";
@@ -48,70 +49,128 @@ int main()
         bufferConstChar = "Press 6, to clear tree.\n";
         WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
 
+        bufferConstChar = "Press 7, to write tree in file.\n";
+        WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+        bufferConstChar = "Press 8, to read tree from file.\n";
+        WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
         bufferConstChar = "Press 0, to exit.\n";
         WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
-        cin >> m1;
+        ReadFile(hIn, bufferCharArr, 4, &bufferDWORD, NULL);
+        m1 = atoi(bufferCharArr);
         switch (m1) {
         case 1:
+        {
             int key, data;
+            bufferLPCWSTR = L"Add leaf";
+            SetConsoleTitle(bufferLPCWSTR);
             system("cls");
-            cout << "Write key of leaf:"<<endl;
-            cin >> key;
-            cout << "Write value of leaf:" << endl;
-            cin >> data;
+            bufferConstChar = "Write key of leaf:";
+            WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+            
+            ReadFile(hIn, bufferCharArr, 4, &bufferDWORD, NULL);
+            key = atoi(bufferCharArr);
+
+            bufferConstChar = "Write value of leaf:";
+            WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+            
+            ReadFile(hIn, bufferCharArr, 4, &bufferDWORD, NULL);
+            data = atoi(bufferCharArr);
             tree.AddLeaf(key, data);
+        }
             break;
         case 2:
         {
             system("cls");
+            bufferLPCWSTR = L"Add n random leafs";
+            SetConsoleTitle(bufferLPCWSTR);
             int n = 0;
-            cout << "Write n of leafs:";
-            cin >> n;
+            bufferConstChar = "Write n of leafs:\n";
+            WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+            
+            ReadFile(hIn, bufferCharArr, 4, &bufferDWORD, NULL);
+            n = atoi(bufferCharArr);
+
             while (n < 0) {
-                cout << "Error!!! Write n of leafs >=0:";
-                cin >> n;
+                bufferConstChar = "Error!!! Write n of leafs >=0:";
+                WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+                
+                ReadFile(hIn, bufferCharArr, 4, &bufferDWORD, NULL);
+                n = atoi(bufferCharArr);
             }
             tree.AddRandomLeafs(n);
         }
             break;
         case 3: 
         {
+            int key;
             system("cls");
-            cout << "Write key of leaf:" << endl;
-            cin >> key;
+            bufferLPCWSTR = L"Find leaf by key";
+            SetConsoleTitle(bufferLPCWSTR);
+
+            bufferConstChar = "Write key of leaf:\n";
+            WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+            ReadFile(hIn, bufferCharArr, 4, &bufferDWORD, NULL);
+            key = atoi(bufferCharArr);
+
+
             tree.FindLeafDataByKey(key);
-            cout << endl << "Press any char & Enter to exit." << endl;
-            string s;
-            cin >> s; 
+
+            bufferConstChar = "\nPress any char & Enter to exit.\n";
+            WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+            ReadFile(hIn, bufferCharArr, 4, &bufferDWORD, NULL);
         }
             break;
         case 4:
         {
+            int key;
             system("cls");
-            cout << "Write key of leaf:" << endl;
-            cin >> key;
+            bufferLPCWSTR = L"Delete leaf";
+            SetConsoleTitle(bufferLPCWSTR);
+
+            bufferConstChar = "Write key of leaf:\n";
+            WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+            ReadFile(hIn, bufferCharArr, 4, &bufferDWORD, NULL);
+            key = atoi(bufferCharArr);
             tree.DeleteLeafByKey(key);
-            cout << endl << "Press any char & Enter to exit." << endl;
-            string s;
-            cin >> s;
+
+            bufferConstChar = "\nPress any char & Enter to exit.\n";
+            WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+            ReadFile(hIn, bufferCharArr, 4, &bufferDWORD, NULL);
         }
             break;
         case 5:
-        {system("cls");
-        tree.PrintBinaryTree();
-        cout <<endl<< "Press any char & Enter to exit." << endl;
-        string s;
-        cin >> s;
+        {   
+            system("cls");
+            bufferLPCWSTR = L"Print tree";
+            SetConsoleTitle(bufferLPCWSTR);
+            tree.PrintBinaryTree();
+
+            bufferConstChar = "\nPress any char & Enter to exit.\n";
+            WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+            ReadFile(hIn, bufferCharArr, 4, &bufferDWORD, NULL);
         }
-            break;
-        case 6:
+        break;
+        case 6: {
             tree.~BinaryTree();
             break;
+        }
+        case 7: {
+            tree.WriteBinaryTreeToFile();
+            break;
+        }
+        case 8: {
+            tree.ReadBinaryTreeFromFile();
+            break;
+        }
         case 0:
             break;
         default:
-            cout << "Something goes wrong! Press Enter to go to menu & pay respects";
-            getchar();
             break;
         }
     }

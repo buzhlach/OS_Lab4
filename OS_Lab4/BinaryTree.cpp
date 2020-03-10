@@ -2,8 +2,26 @@
 #include "Leaf.h"
 #include <iostream>
 #include <ctime>
+#include <Windows.h>
+#include <string>
+
+#pragma warning(disable : 4996)
+
+#define PATH L"file.txt"
 
 using namespace std;
+
+HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
+
+DWORD bufferDWORD;
+const char* bufferConstChar;
+char bufferCharArr[4];
+LPCWSTR bufferLPCWSTR;
+char bufferTreeStr[250];
+
+const char* SEPARATORS = ".,;";
+
 
 BinaryTree::BinaryTree(Leaf* root) {
 	this->root = root;
@@ -15,7 +33,7 @@ BinaryTree::BinaryTree() :BinaryTree::BinaryTree(nullptr) {
 void BinaryTree::AddLeaf(int key, int data) {
 	Leaf* currLeaf = this->root;
 	Leaf* currLeafParent = nullptr;
-	int lastMove = 0; //-1 елси left, 1 если right
+	int lastMove = 0; //-1 если left, 1 если right
 	while ((currLeaf != nullptr) &&(currLeaf->key!=key))
 	{
 		currLeafParent = currLeaf;
@@ -42,11 +60,20 @@ void BinaryTree::AddLeaf(int key, int data) {
 		}
 	}
 	else {
-		cout << "Key \'"<<key<<"\' exist. Value on this key changed "<<endl;
+		bufferConstChar = "Key \'";
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+		bufferConstChar = itoa(key, bufferCharArr,10);
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+		bufferConstChar = "\' exist. Value on this key changed.\n";
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
 		currLeaf->data = data;
-		cout << endl << "Press any char & Enter to exit." << endl;
-		string s;
-		cin >> s;
+
+		bufferConstChar = "Press any char & Enter to exit.\n";
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+		ReadFile(hIn, bufferCharArr, 4, &bufferDWORD, NULL);
 	}
 }
 
@@ -64,10 +91,30 @@ void BinaryTree::FindLeafDataByKey(int key) {
 	}
 
 	if (currLeaf == nullptr) {
-		cout << "Leaf with key \'" << key << "\' not found."<<endl;
+		bufferConstChar = "Leaf with key \'";
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+		bufferConstChar = itoa(key, bufferCharArr, 10);
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+		bufferConstChar = "\' not found.\n";
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
 	}
 	else {
-		cout << "Value by key \'" << key << "\' = " << currLeaf->data<<endl;
+		bufferConstChar = "Value by key \'";
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+		bufferConstChar = itoa(key, bufferCharArr, 10);
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+		bufferConstChar = "\' = ";
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+		bufferConstChar = itoa(currLeaf->data, bufferCharArr, 10);
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+		bufferConstChar = "\n";
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
 	}
 }
 
@@ -98,7 +145,14 @@ void BinaryTree::DeleteLeafByKey(int key) {
 	}
 
 	if (currLeaf == nullptr) {
-		cout << "Leaf with key \'" << key << "\' not found." << endl;
+		bufferConstChar = "Leaf with key \'";
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+		bufferConstChar = itoa(key, bufferCharArr, 10);
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+
+		bufferConstChar = "\' not found.\n";
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
 	}
 	else {
 		if (currLeaf->left == nullptr) {
@@ -195,7 +249,10 @@ void BinaryTree::PrintBinaryTree() {
 		PrintBranch(root);
 	}
 	else
-		cout << "Tree is empty." << endl;
+	{
+		bufferConstChar = "Tree is empty.\n";
+		WriteFile(hOut, bufferConstChar, strlen(bufferConstChar), &bufferDWORD, NULL);
+	}
 }
 
 void BinaryTree::PrintLeaf(Leaf* leaf) {//вывести лист и передать далее
@@ -225,5 +282,67 @@ void BinaryTree::AddRandomLeafs(int n) {
 		int data = rand() % 99+1;
 		int key = rand() % 99+1;
 		this->AddLeaf(key, data);
+	}
+}
+
+
+void BinaryTree::PrintLeafToString(Leaf* leaf,string &strTree) {
+	if (leaf != nullptr) {
+		strTree += to_string(leaf->key);
+		strTree += ",";
+		strTree += to_string(leaf->data);
+		strTree += ";";
+		PrintLeafToString(leaf->left, strTree);
+		PrintLeafToString(leaf->right, strTree);
+	}
+}
+
+void BinaryTree::WriteBinaryTreeToFile() {
+	string strTree = "";
+	PrintLeafToString(this->root, strTree);
+	strTree += ".";
+	
+	LPCSTR LPCStrTree = strTree.c_str();
+
+	HANDLE hFile;
+	hFile = CreateFile(PATH,
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ,
+		NULL,
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+	WriteFile(hFile, LPCStrTree, strlen(LPCStrTree), &bufferDWORD, NULL);
+	CloseHandle(hFile);
+}
+
+void BinaryTree::ReadBinaryTreeFromFile() {
+	this->~BinaryTree();
+	HANDLE hFile;
+	hFile = CreateFile(PATH,
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ,
+		NULL,
+		OPEN_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+	ReadFile(hFile, bufferTreeStr, 250, &bufferDWORD, NULL);
+	CloseHandle(hFile);
+
+	char* ptr;
+	int key=0, data = 0;
+	if ((ptr = strtok(bufferTreeStr, SEPARATORS)) != nullptr) {
+		key = atoi(ptr);
+		ptr = strtok(0, SEPARATORS);
+		data = atoi(ptr);
+		this->AddLeaf(key, data);
+		ptr = strtok(0, SEPARATORS);
+		while (ptr) {
+			key = atoi(ptr);
+			ptr = strtok(0, SEPARATORS);
+			data = atoi(ptr);
+			this->AddLeaf(key, data);
+			ptr = strtok(0, SEPARATORS);
+		}
 	}
 }
